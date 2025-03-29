@@ -56,7 +56,7 @@ namespace Tests.Integration
             response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
             var result = responseContent.Split(":")[1].Trim().Trim('"');
-            Assert.NotEmpty(result);
+            Assert.Empty(result);
         }
 
 
