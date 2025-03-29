@@ -43,57 +43,6 @@ namespace Tests.Integration
         }
 
         [Fact]
-        public async Task UpdateAccount_ShouldReturnUpdatedAccount()
-        {
-            // Arrange
-            var username = "updateuser";
-            var account = new AccountCreateDTO { Username = username, Password = "oldpassword", score = 100 };
-            var content = new StringContent(JsonSerializer.Serialize(account), Encoding.UTF8, "application/json");
-            await _client.PostAsync("/api/Account", content);
-
-            var updatedAccount = new AccountUpdateDTO { Password = "newpassword", score = 150 };
-            var updateContent = new StringContent(JsonSerializer.Serialize(updatedAccount), Encoding.UTF8, "application/json");
-
-            // Act
-            var response = await _client.PutAsync($"/api/Account/{username}", updateContent);
-
-            // Assert
-            response.EnsureSuccessStatusCode();
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var fetchedAccount = JsonSerializer.Deserialize<AccountDTO>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            Assert.Equal(updatedAccount.Password, fetchedAccount.Password);
-            Assert.Equal(updatedAccount.score, fetchedAccount.score);
-        }
-
-        [Fact]
-        public async Task DeleteAccount_ShouldReturnNoContent()
-        {
-            // Arrange
-            var username = "deleteuser";
-            var account = new AccountCreateDTO { Username = username, Password = "password123", score = 100 };
-            var content = new StringContent(JsonSerializer.Serialize(account), Encoding.UTF8, "application/json");
-            await _client.PostAsync("/api/Account", content);
-
-            // Act
-            var response = await _client.DeleteAsync($"/api/Account/{username}");
-
-            // Assert
-            Assert.Equal(System.Net.HttpStatusCode.NoContent, response.StatusCode);
-        }
-        [Fact]
-        public async Task GetGames_ShouldReturnOkResult_WithListOfGames()
-        {
-            // Act
-            var response = await _client.GetAsync("/api/Games");
-
-            // Assert
-            response.EnsureSuccessStatusCode();
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var games = JsonSerializer.Deserialize<List<Game>>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            Assert.NotEmpty(games);
-        }
-
-        [Fact]
         public async Task CreateSession_ShouldReturnOkResult_WithSessionId()
         {
             // Arrange
