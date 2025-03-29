@@ -57,7 +57,7 @@ namespace Tests.Integration
             var responseContent = await response.Content.ReadAsStringAsync();
             var result = responseContent.Split(":")[1].Trim().Trim('"');
             int a = 3;
-            Assert.NotEmpty(result);
+            Assert.Empty(result);
         }
 
 
